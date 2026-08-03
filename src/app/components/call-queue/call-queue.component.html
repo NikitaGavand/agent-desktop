@@ -1,0 +1,55 @@
+<div class="call-queue">
+  <div class="queue-sections">
+    <!-- Waiting Calls -->
+    <div class="card">
+      <h2>Waiting Calls ({{ (waitingCalls$ | async)?.length || 0 }})</h2>
+      <div class="calls-list">
+        <div class="call-item" *ngFor="let call of waitingCalls$ | async" [class]="getPriorityClass(call.priority)">
+          <div class="call-header">
+            <h3>{{ call.customerName }}</h3>
+            <span class="priority-badge">{{ call.priority }}</span>
+          </div>
+          <div class="call-details">
+            <p><strong>Phone:</strong> {{ call.customerPhone }}</p>
+            <p *ngIf="call.customerEmail"><strong>Email:</strong> {{ call.customerEmail }}</p>
+            <p><strong>Issue:</strong> {{ call.issue }}</p>
+            <p class="wait-time"><strong>Waiting:</strong> {{ formatWaitTime(call.queueTime) }}</p>
+          </div>
+          <div class="call-actions">
+            <button class="btn btn-primary" (click)="acceptCall(call.id)">Accept Call</button>
+          </div>
+        </div>
+        <div class="empty-state" *ngIf="(waitingCalls$ | async)?.length === 0">
+          <p>No calls waiting in queue</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Active Calls -->
+    <div class="card">
+      <h2>Active Calls ({{ (inProgressCalls$ | async)?.length || 0 }})</h2>
+      <div class="calls-list">
+        <div class="call-item active" *ngFor="let call of inProgressCalls$ | async">
+          <div class="call-header">
+            <h3>{{ call.customerName }}</h3>
+            <span class="duration-badge" *ngIf="call.startTime">
+              {{ formatDuration(call.startTime) }}
+            </span>
+          </div>
+          <div class="call-details">
+            <p><strong>Phone:</strong> {{ call.customerPhone }}</p>
+            <p *ngIf="call.customerEmail"><strong>Email:</strong> {{ call.customerEmail }}</p>
+            <p><strong>Issue:</strong> {{ call.issue }}</p>
+            <p *ngIf="call.notes"><strong>Notes:</strong> {{ call.notes }}</p>
+          </div>
+          <div class="call-actions">
+            <button class="btn btn-success" (click)="endCall(call.id)">End Call</button>
+          </div>
+        </div>
+        <div class="empty-state" *ngIf="(inProgressCalls$ | async)?.length === 0">
+          <p>No active calls</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

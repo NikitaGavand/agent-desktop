@@ -1,0 +1,166 @@
+.dashboard {
+  .metrics-overview {
+    margin-bottom: 2rem;
+  }
+
+  .metric-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+    margin-bottom: 2rem;
+  }
+
+  .dashboard-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+
+    @media (max-width: 768px) {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  .card {
+    h2 {
+      margin-bottom: 1rem;
+      color: #333;
+      font-size: 1.25rem;
+    }
+  }
+
+  .calls-list, .agents-list {
+    max-height: 400px;
+    overflow-y: auto;
+  }
+
+  .call-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem;
+    border: 1px solid #e9ecef;
+    border-radius: 8px;
+    margin-bottom: 0.5rem;
+    transition: all 0.2s;
+
+    &:hover {
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+
+    &.active {
+      background-color: #e8f5e8;
+      border-color: #28a745;
+    }
+
+    &.priority-urgent {
+      border-left: 4px solid #dc3545;
+    }
+
+    &.priority-high {
+      border-left: 4px solid #fd7e14;
+    }
+
+    &.priority-medium {
+      border-left: 4px solid #ffc107;
+    }
+
+    &.priority-low {
+      border-left: 4px solid #28a745;
+    }
+  }
+
+  .call-info {
+    flex: 1;
+
+    h3 {
+      margin: 0 0 0.5rem 0;
+      font-size: 1rem;
+      color: #333;
+    }
+
+    p {
+      margin: 0 0 0.5rem 0;
+      color: #666;
+      font-size: 0.875rem;
+    }
+  }
+
+  .call-meta {
+    display: flex;
+    gap: 1rem;
+    font-size: 0.75rem;
+    color: #888;
+
+    .priority {
+      text-transform: uppercase;
+      font-weight: 600;
+    }
+
+    .wait-time, .duration {
+      color: #666;
+    }
+  }
+
+  .call-actions {
+    margin-left: 1rem;
+  }
+
+  .agent-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem;
+    border: 1px solid #e9ecef;
+    border-radius: 8px;
+    margin-bottom: 0.5rem;
+
+    .agent-info {
+      flex: 1;
+
+      h3 {
+        margin: 0 0 0.5rem 0;
+        font-size: 1rem;
+        color: #333;
+      }
+
+      p {
+        margin: 0 0 0.5rem 0;
+        color: #666;
+        font-size: 0.875rem;
+      }
+    }
+
+    .agent-meta {
+      display: flex;
+      gap: 1rem;
+      align-items: center;
+      font-size: 0.75rem;
+
+      .calls-handled {
+        color: #666;
+      }
+    }
+
+    .agent-skills {
+      display: flex;
+      gap: 0.25rem;
+      flex-wrap: wrap;
+    }
+
+    .skill-tag {
+      background-color: #e9ecef;
+      color: #495057;
+      padding: 0.25rem 0.5rem;
+      border-radius: 12px;
+      font-size: 0.625rem;
+      font-weight: 500;
+    }
+  }
+
+  .empty-state {
+    text-align: center;
+    padding: 2rem;
+    color: #6c757d;
+    font-style: italic;
+  }
+}

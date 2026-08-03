@@ -1,0 +1,93 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: Agent Desktop Infrastructure
+
+Parameters:
+  VpcId:
+    Type: AWS::EC2::VPC::Id
+  SubnetIds:
+    Type: List<AWS::EC2::Subnet::Id>
+
+Resources:
+  AgentCluster:
+    Type: AWS::ECS::Cluster
+    Properties:
+      ClusterName: agent-desktop-cluster
+      CapacityProviders:
+        - FARGATE
+        - FARGATE_SPOT
+
+  CustomerServiceRepo:
+    Type: AWS::ECR::Repository
+    Properties:
+      RepositoryName: customer-service
+      ImageScanningConfiguration:
+        ScanOnPush: true
+
+  AgentALB:
+    Type: AWS::ElasticLoadBalancingV2::LoadBalancer
+    Properties:
+      Name: agent-desktop-alb
+      Scheme: internet-facing
+      Type: application
+      Subnets: !Ref SubnetIds
+      SecurityGroups:
+        - !Ref ALBSecurityGroup
+
+  ALBSecurityGroup:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupDescription: ALB Security Group
+      VpcId: !Ref VpcId
+      SecurityGroupIngress:
+        - IpProtocol: tcp
+          FromPort: 80
+          ToPort: 80
+          CidrIp: 0.0.0.0/0
+        - IpProtocol: tcp
+          FromPort: 443
+          ToPort: 443
+          CidrIp: 0.0.0.0/0
+
+  AgentDB:
+    Type: AWS::RDS::DBInstance
+    Properties:
+      DBInstanceIdentifier: agent-desktop-db
+      DBInstanceClass: db.t3.micro
+      Engine: postgres
+      EngineVersion: '15.4'
+      AllocatedStorage: 20
+      DBName: agentdb
+      MasterUsername: agent
+      MasterUserPassword: !Sub '{{resolve:secretsmanager:${DBSecret}:SecretString:password}}'
+      VPCSecurityGroups:
+        - !Ref DBSecurityGroup
+      PubliclyAccessible: false
+
+  DBSecurityGroup:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupDescription: Database Security Group
+      VpcId: !Ref VpcId
+      SecurityGroupIngress:
+        - IpProtocol: tcp
+          FromPort: 5432
+          ToPort: 5432
+          SourceSecurityGroupId: !Ref ALBSecurityGroup
+
+  DBSecret:
+    Type: AWS::SecretsManager::Secret
+    Properties:
+      Name: agent-db-credentials
+      GenerateSecretString:
+        SecretStringTemplate: '{"username":"agent"}'
+        GenerateStringKey: password
+        PasswordLength: 16
+        ExcludeCharacters: '"@/\'
+
+Outputs:
+  ALBUrl:
+    Description: Application Load Balancer URL
+    Value: !GetAtt AgentALB.DNSName
+  ECRRepo:
+    Description: ECR Repository URI
+    Value: !GetAtt CustomerServiceRepo.RepositoryUri

@@ -1,0 +1,124 @@
+/* You can add global styles to this file, and also import other style files */
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  background-color: #f5f5f5;
+  color: #333;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.card {
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  padding: 20px;
+  margin-bottom: 20px;
+}
+
+.btn {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 500;
+  transition: background-color 0.2s;
+
+  &.btn-primary {
+    background-color: #007bff;
+    color: white;
+
+    &:hover {
+      background-color: #0056b3;
+    }
+  }
+
+  &.btn-success {
+    background-color: #28a745;
+    color: white;
+
+    &:hover {
+      background-color: #1e7e34;
+    }
+  }
+
+  &.btn-danger {
+    background-color: #dc3545;
+    color: white;
+
+    &:hover {
+      background-color: #c82333;
+    }
+  }
+
+  &.btn-warning {
+    background-color: #ffc107;
+    color: #212529;
+
+    &:hover {
+      background-color: #e0a800;
+    }
+  }
+
+  &:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+}
+
+.status-badge {
+  padding: 4px 8px;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: 500;
+  text-transform: uppercase;
+
+  &.status-available {
+    background-color: #d4edda;
+    color: #155724;
+  }
+
+  &.status-busy {
+    background-color: #f8d7da;
+    color: #721c24;
+  }
+
+  &.status-on-call {
+    background-color: #fff3cd;
+    color: #856404;
+  }
+
+  &.status-offline {
+    background-color: #6c757d;
+    color: white;
+  }
+}
+
+.metric-card {
+  text-align: center;
+  padding: 20px;
+
+  .metric-value {
+    font-size: 2.5rem;
+    font-weight: bold;
+    color: #007bff;
+    margin-bottom: 8px;
+  }
+
+  .metric-label {
+    font-size: 0.875rem;
+    color: #6c757d;
+    text-transform: uppercase;
+  }
+}

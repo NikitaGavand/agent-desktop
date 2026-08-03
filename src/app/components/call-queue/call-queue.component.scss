@@ -1,0 +1,136 @@
+.call-queue {
+  .queue-sections {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+
+    @media (max-width: 768px) {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  .card {
+    h2 {
+      margin-bottom: 1rem;
+      color: #333;
+      font-size: 1.25rem;
+    }
+  }
+
+  .calls-list {
+    max-height: 600px;
+    overflow-y: auto;
+  }
+
+  .call-item {
+    border: 1px solid #e9ecef;
+    border-radius: 8px;
+    padding: 1rem;
+    margin-bottom: 1rem;
+    transition: all 0.2s;
+
+    &:hover {
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+
+    &.active {
+      background-color: #e8f5e8;
+      border-color: #28a745;
+    }
+
+    &.priority-urgent {
+      border-left: 4px solid #dc3545;
+    }
+
+    &.priority-high {
+      border-left: 4px solid #fd7e14;
+    }
+
+    &.priority-medium {
+      border-left: 4px solid #ffc107;
+    }
+
+    &.priority-low {
+      border-left: 4px solid #28a745;
+    }
+  }
+
+  .call-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.75rem;
+
+    h3 {
+      margin: 0;
+      font-size: 1.125rem;
+      color: #333;
+    }
+
+    .priority-badge {
+      background-color: #dc3545;
+      color: white;
+      padding: 0.25rem 0.75rem;
+      border-radius: 12px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      text-transform: uppercase;
+
+      &.high {
+        background-color: #fd7e14;
+      }
+
+      &.medium {
+        background-color: #ffc107;
+        color: #212529;
+      }
+
+      &.low {
+        background-color: #28a745;
+      }
+    }
+
+    .duration-badge {
+      background-color: #007bff;
+      color: white;
+      padding: 0.25rem 0.75rem;
+      border-radius: 12px;
+      font-size: 0.75rem;
+      font-weight: 600;
+    }
+  }
+
+  .call-details {
+    margin-bottom: 1rem;
+
+    p {
+      margin: 0.25rem 0;
+      font-size: 0.875rem;
+      color: #555;
+
+      strong {
+        color: #333;
+      }
+    }
+
+    .wait-time {
+      color: #dc3545;
+      font-weight: 500;
+    }
+  }
+
+  .call-actions {
+    display: flex;
+    gap: 0.5rem;
+  }
+
+  .empty-state {
+    text-align: center;
+    padding: 3rem;
+    color: #6c757d;
+    font-style: italic;
+    background-color: #f8f9fa;
+    border-radius: 8px;
+    border: 2px dashed #dee2e6;
+  }
+}

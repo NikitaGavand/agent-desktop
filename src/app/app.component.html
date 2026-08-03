@@ -1,0 +1,16 @@
+<header class="app-header">
+  <div class="container">
+    <h1>Agent Desktop</h1>
+    <nav>
+      <a routerLink="/" routerLinkActive="active">Dashboard</a>
+      <a routerLink="/queue" routerLinkActive="active">Call Queue</a>
+      <a routerLink="/metrics" routerLinkActive="active">Metrics</a>
+    </nav>
+  </div>
+</header>
+
+<main class="main-content">
+  <div class="container">
+    <router-outlet></router-outlet>
+  </div>
+</main>

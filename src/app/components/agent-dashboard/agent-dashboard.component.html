@@ -1,0 +1,91 @@
+<div class="dashboard">
+  <div class="metrics-overview" *ngIf="metrics$ | async as metrics">
+    <div class="metric-cards">
+      <div class="metric-card">
+        <div class="metric-value">{{ metrics.callsWaiting }}</div>
+        <div class="metric-label">Calls Waiting</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-value">{{ metrics.callsInProgress }}</div>
+        <div class="metric-label">In Progress</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-value">{{ formatDuration(Math.floor(metrics.averageWaitTime)) }}</div>
+        <div class="metric-label">Avg Wait Time</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-value">{{ metrics.agentUtilization | number:'1.0-0' }}%</div>
+        <div class="metric-label">Agent Utilization</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="dashboard-grid">
+    <!-- Call Queue Section -->
+    <div class="card">
+      <h2>Call Queue</h2>
+      <div class="calls-list">
+        <div class="call-item" *ngFor="let call of waitingCalls$ | async" [class]="getPriorityClass(call.priority)">
+          <div class="call-info">
+            <h3>{{ call.customerName }}</h3>
+            <p>{{ call.issue }}</p>
+            <div class="call-meta">
+              <span class="priority">{{ call.priority }}</span>
+              <span class="wait-time">Waiting: {{ formatWaitTime(call.queueTime) }}</span>
+            </div>
+          </div>
+          <div class="call-actions">
+            <button class="btn btn-primary" (click)="acceptCall(call.id, '1')">Accept</button>
+          </div>
+        </div>
+        <div class="empty-state" *ngIf="(waitingCalls$ | async)?.length === 0">
+          <p>No calls waiting in queue</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Active Calls Section -->
+    <div class="card">
+      <h2>Active Calls</h2>
+      <div class="calls-list">
+        <div class="call-item active" *ngFor="let call of inProgressCalls$ | async">
+          <div class="call-info">
+            <h3>{{ call.customerName }}</h3>
+            <p>{{ call.issue }}</p>
+            <div class="call-meta">
+              <span class="duration" *ngIf="call.startTime">
+                Duration: {{ formatDuration(Math.floor((Date.now() - call.startTime.getTime()) / 1000)) }}
+              </span>
+            </div>
+          </div>
+          <div class="call-actions">
+            <button class="btn btn-success" (click)="endCall(call.id)">End Call</button>
+          </div>
+        </div>
+        <div class="empty-state" *ngIf="(inProgressCalls$ | async)?.length === 0">
+          <p>No active calls</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Agents Section -->
+    <div class="card">
+      <h2>Agents Status</h2>
+      <div class="agents-list">
+        <div class="agent-item" *ngFor="let agent of agents$ | async">
+          <div class="agent-info">
+            <h3>{{ agent.name }}</h3>
+            <p>{{ agent.email }}</p>
+            <div class="agent-meta">
+              <span class="status-badge" [class]="getStatusClass(agent.status)">{{ agent.status }}</span>
+              <span class="calls-handled">{{ agent.totalCallsHandled }} calls handled</span>
+            </div>
+          </div>
+          <div class="agent-skills">
+            <span class="skill-tag" *ngFor="let skill of agent.skills">{{ skill }}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

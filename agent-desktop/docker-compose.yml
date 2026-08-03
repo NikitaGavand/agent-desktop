@@ -1,0 +1,91 @@
+version: '3.8'
+
+services:
+  eureka-server:
+    build: ./backend/eureka-server
+    ports:
+      - "8761:8761"
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+    networks:
+      - agent-network
+
+  api-gateway:
+    build: ./backend/api-gateway
+    ports:
+      - "8080:8080"
+    environment:
+      - EUREKA_CLIENT_SERVICE_URL_DEFAULTZONE=http://eureka-server:8761/eureka/
+      - SPRING_PROFILES_ACTIVE=docker
+    depends_on:
+      - eureka-server
+    networks:
+      - agent-network
+
+  customer-service-1:
+    build: ./backend/customer-service
+    ports:
+      - "8081:8081"
+    environment:
+      - SERVER_PORT=8081
+      - EUREKA_CLIENT_SERVICE_URL_DEFAULTZONE=http://eureka-server:8761/eureka/
+      - SPRING_PROFILES_ACTIVE=docker
+    depends_on:
+      - eureka-server
+    networks:
+      - agent-network
+
+  customer-service-2:
+    build: ./backend/customer-service
+    ports:
+      - "8082:8082"
+    environment:
+      - SERVER_PORT=8082
+      - EUREKA_CLIENT_SERVICE_URL_DEFAULTZONE=http://eureka-server:8761/eureka/
+      - SPRING_PROFILES_ACTIVE=docker
+    depends_on:
+      - eureka-server
+    networks:
+      - agent-network
+
+  customer-service-3:
+    build: ./backend/customer-service
+    ports:
+      - "8083:8083"
+    environment:
+      - SERVER_PORT=8083
+      - EUREKA_CLIENT_SERVICE_URL_DEFAULTZONE=http://eureka-server:8761/eureka/
+      - SPRING_PROFILES_ACTIVE=docker
+    depends_on:
+      - eureka-server
+    networks:
+      - agent-network
+
+  postgres:
+    image: postgres:15-alpine
+    environment:
+      POSTGRES_DB: agentdb
+      POSTGRES_USER: agent
+      POSTGRES_PASSWORD: agent123
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    networks:
+      - agent-network
+
+  frontend:
+    build: ./frontend
+    ports:
+      - "4200:80"
+    depends_on:
+      - api-gateway
+    networks:
+      - agent-network
+
+networks:
+  agent-network:
+    driver: bridge
+
+volumes:
+  postgres-data:

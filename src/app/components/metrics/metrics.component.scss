@@ -1,0 +1,258 @@
+.metrics {
+  h1 {
+    text-align: center;
+    color: #333;
+    margin-bottom: 2rem;
+    font-size: 2rem;
+  }
+
+  .kpi-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 3rem;
+  }
+
+  .kpi-card {
+    display: flex;
+    align-items: center;
+    padding: 1.5rem;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    transition: transform 0.2s;
+
+    &:hover {
+      transform: translateY(-2px);
+    }
+
+    .kpi-icon {
+      font-size: 2.5rem;
+      margin-right: 1rem;
+    }
+
+    .kpi-content {
+      .kpi-value {
+        font-size: 2rem;
+        font-weight: bold;
+        color: #333;
+        line-height: 1;
+      }
+
+      .kpi-label {
+        font-size: 0.875rem;
+        color: #666;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+      }
+    }
+
+    &.total-calls {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+
+      .kpi-value, .kpi-label {
+        color: white;
+      }
+    }
+
+    &.waiting-calls {
+      background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+      color: white;
+
+      .kpi-value, .kpi-label {
+        color: white;
+      }
+    }
+
+    &.in-progress {
+      background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+      color: white;
+
+      .kpi-value, .kpi-label {
+        color: white;
+      }
+    }
+
+    &.completed {
+      background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+      color: white;
+
+      .kpi-value, .kpi-label {
+        color: white;
+      }
+    }
+  }
+
+  .metrics-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 3rem;
+  }
+
+  .metric-card {
+    background: white;
+    padding: 2rem;
+    border-radius: 12px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    text-align: center;
+
+    h3 {
+      margin: 0 0 1rem 0;
+      color: #555;
+      font-size: 1rem;
+      font-weight: 500;
+    }
+
+    .metric-value {
+      font-size: 2.5rem;
+      font-weight: bold;
+      color: #007bff;
+      margin-bottom: 0.5rem;
+
+      &.excellent {
+        color: #28a745;
+      }
+
+      &.good {
+        color: #17a2b8;
+      }
+
+      &.fair {
+        color: #ffc107;
+      }
+
+      &.poor {
+        color: #dc3545;
+      }
+
+      &.high {
+        color: #dc3545;
+      }
+
+      &.medium {
+        color: #ffc107;
+      }
+
+      &.low {
+        color: #28a745;
+      }
+    }
+
+    .metric-description {
+      font-size: 0.875rem;
+      color: #666;
+    }
+  }
+
+  .status-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 2rem;
+
+    @media (max-width: 768px) {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  .status-card, .performance-indicators {
+    background: white;
+    padding: 2rem;
+    border-radius: 12px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+
+    h3 {
+      margin: 0 0 1.5rem 0;
+      color: #333;
+      font-size: 1.25rem;
+    }
+  }
+
+  .status-bars {
+    .status-item {
+      display: flex;
+      align-items: center;
+      margin-bottom: 1rem;
+
+      .status-label {
+        width: 100px;
+        font-size: 0.875rem;
+        color: #555;
+      }
+
+      .status-bar {
+        flex: 1;
+        height: 20px;
+        background-color: #e9ecef;
+        border-radius: 10px;
+        overflow: hidden;
+        margin: 0 1rem;
+
+        .status-fill {
+          height: 100%;
+          transition: width 0.3s ease;
+
+          &.completed {
+            background-color: #28a745;
+          }
+
+          &.in-progress {
+            background-color: #007bff;
+          }
+
+          &.waiting {
+            background-color: #ffc107;
+          }
+
+          &.abandoned {
+            background-color: #dc3545;
+          }
+        }
+      }
+
+      .status-value {
+        width: 40px;
+        text-align: right;
+        font-weight: 600;
+        color: #333;
+      }
+    }
+  }
+
+  .indicator-list {
+    .indicator-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0.75rem 0;
+      border-bottom: 1px solid #e9ecef;
+
+      &:last-child {
+        border-bottom: none;
+      }
+
+      .indicator-label {
+        color: #555;
+        font-size: 0.875rem;
+      }
+
+      .indicator-value {
+        font-weight: 600;
+        color: #333;
+
+        &.excellent, &.good {
+          color: #28a745;
+        }
+
+        &.fair {
+          color: #ffc107;
+        }
+
+        &.poor {
+          color: #dc3545;
+        }
+      }
+    }
+  }
+}

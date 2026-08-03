@@ -1,0 +1,27 @@
+{
+  "family": "agent-desktop-task",
+  "networkMode": "awsvpc",
+  "requiresCompatibilities": ["FARGATE"],
+  "cpu": "1024",
+  "memory": "2048",
+  "executionRoleArn": "arn:aws:iam::ACCOUNT_ID:role/ecsTaskExecutionRole",
+  "containerDefinitions": [
+    {
+      "name": "customer-service",
+      "image": "ACCOUNT_ID.dkr.ecr.REGION.amazonaws.com/customer-service:latest",
+      "portMappings": [{"containerPort": 8081, "protocol": "tcp"}],
+      "environment": [
+        {"name": "SPRING_PROFILES_ACTIVE", "value": "aws"},
+        {"name": "EUREKA_CLIENT_SERVICE_URL_DEFAULTZONE", "value": "http://eureka-server:8761/eureka/"}
+      ],
+      "logConfiguration": {
+        "logDriver": "awslogs",
+        "options": {
+          "awslogs-group": "/ecs/agent-desktop",
+          "awslogs-region": "us-east-1",
+          "awslogs-stream-prefix": "customer"
+        }
+      }
+    }
+  ]
+}

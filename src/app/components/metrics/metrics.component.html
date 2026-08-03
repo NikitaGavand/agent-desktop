@@ -1,0 +1,139 @@
+<div class="metrics" *ngIf="metrics$ | async as metrics">
+  <h1>Call Center Metrics</h1>
+  
+  <!-- Key Performance Indicators -->
+  <div class="kpi-grid">
+    <div class="kpi-card total-calls">
+      <div class="kpi-icon">📞</div>
+      <div class="kpi-content">
+        <div class="kpi-value">{{ metrics.totalCalls }}</div>
+        <div class="kpi-label">Total Calls</div>
+      </div>
+    </div>
+
+    <div class="kpi-card waiting-calls">
+      <div class="kpi-icon">⏳</div>
+      <div class="kpi-content">
+        <div class="kpi-value">{{ metrics.callsWaiting }}</div>
+        <div class="kpi-label">Waiting</div>
+      </div>
+    </div>
+
+    <div class="kpi-card in-progress">
+      <div class="kpi-icon">📞</div>
+      <div class="kpi-content">
+        <div class="kpi-value">{{ metrics.callsInProgress }}</div>
+        <div class="kpi-label">In Progress</div>
+      </div>
+    </div>
+
+    <div class="kpi-card completed">
+      <div class="kpi-icon">✅</div>
+      <div class="kpi-content">
+        <div class="kpi-value">{{ metrics.callsCompleted }}</div>
+        <div class="kpi-label">Completed</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Performance Metrics -->
+  <div class="metrics-grid">
+    <div class="metric-card">
+      <h3>Average Wait Time</h3>
+      <div class="metric-value">{{ formatDuration(metrics.averageWaitTime) }}</div>
+      <div class="metric-description">Time customers wait in queue</div>
+    </div>
+
+    <div class="metric-card">
+      <h3>Average Call Duration</h3>
+      <div class="metric-value">{{ formatDuration(metrics.averageCallDuration) }}</div>
+      <div class="metric-description">Average handling time</div>
+    </div>
+
+    <div class="metric-card">
+      <h3>Agent Utilization</h3>
+      <div class="metric-value" [class]="getUtilizationColor(metrics.agentUtilization)">
+        {{ metrics.agentUtilization | number:'1.0-0' }}%
+      </div>
+      <div class="metric-description">Percentage of agents busy</div>
+    </div>
+
+    <div class="metric-card">
+      <h3>Service Level</h3>
+      <div class="metric-value" [class]="getServiceLevelColor(metrics.serviceLevel)">
+        {{ metrics.serviceLevel | number:'1.0-0' }}%
+      </div>
+      <div class="metric-description">Calls answered within target time</div>
+    </div>
+  </div>
+
+  <!-- Call Status Breakdown -->
+  <div class="status-grid">
+    <div class="status-card">
+      <h3>Call Status Distribution</h3>
+      <div class="status-bars">
+        <div class="status-item">
+          <span class="status-label">Completed</span>
+          <div class="status-bar">
+            <div class="status-fill completed" 
+                 [style.width.%]="metrics.totalCalls > 0 ? (metrics.callsCompleted / metrics.totalCalls) * 100 : 0">
+            </div>
+          </div>
+          <span class="status-value">{{ metrics.callsCompleted }}</span>
+        </div>
+
+        <div class="status-item">
+          <span class="status-label">In Progress</span>
+          <div class="status-bar">
+            <div class="status-fill in-progress" 
+                 [style.width.%]="metrics.totalCalls > 0 ? (metrics.callsInProgress / metrics.totalCalls) * 100 : 0">
+            </div>
+          </div>
+          <span class="status-value">{{ metrics.callsInProgress }}</span>
+        </div>
+
+        <div class="status-item">
+          <span class="status-label">Waiting</span>
+          <div class="status-bar">
+            <div class="status-fill waiting" 
+                 [style.width.%]="metrics.totalCalls > 0 ? (metrics.callsWaiting / metrics.totalCalls) * 100 : 0">
+            </div>
+          </div>
+          <span class="status-value">{{ metrics.callsWaiting }}</span>
+        </div>
+
+        <div class="status-item">
+          <span class="status-label">Abandoned</span>
+          <div class="status-bar">
+            <div class="status-fill abandoned" 
+                 [style.width.%]="metrics.totalCalls > 0 ? (metrics.callsAbandoned / metrics.totalCalls) * 100 : 0">
+            </div>
+          </div>
+          <span class="status-value">{{ metrics.callsAbandoned }}</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="performance-indicators">
+      <h3>Performance Indicators</h3>
+      <div class="indicator-list">
+        <div class="indicator-item">
+          <span class="indicator-label">Service Level Target</span>
+          <span class="indicator-value">80%</span>
+        </div>
+        <div class="indicator-item">
+          <span class="indicator-label">Current Performance</span>
+          <span class="indicator-value" [class]="getServiceLevelColor(metrics.serviceLevel)">
+            {{ metrics.serviceLevel | number:'1.0-0' }}%
+          </span>
+        </div>
+        <div class="indicator-item">
+          <span class="indicator-label">Abandonment Rate</span>
+          <span class="indicator-value">
+            {{ metrics.totalCalls > 0 ? (metrics.callsAbandoned / metrics.totalCalls * 100) | number:'1.1-0' : 0 }}%
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
