@@ -7,7 +7,7 @@ import { AppComponent } from './app.component';
 import { AgentDashboardComponent } from './components/agent-dashboard/agent-dashboard.component';
 import { CallQueueComponent } from './components/call-queue/call-queue.component';
 import { MetricsComponent } from './components/metrics/metrics.component';
-import { CallService } from '../services/call.service';
+import { CallService } from './services/call.service';
 
 @NgModule({
   declarations: [

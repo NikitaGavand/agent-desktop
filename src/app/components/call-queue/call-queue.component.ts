@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { CallService } from '../../../services/call.service';
+import { CallService } from '../../services/call.service';
 import { Observable } from 'rxjs';
-import { Call } from '../../../models/call.model';
+import { Call } from '../../models/call.model';
 
 @Component({
   selector: 'app-call-queue',
@@ -9,8 +9,8 @@ import { Call } from '../../../models/call.model';
   styleUrls: ['./call-queue.component.scss']
 })
 export class CallQueueComponent implements OnInit {
-  waitingCalls$: Observable<Call[]>;
-  inProgressCalls$: Observable<Call[]>;
+  waitingCalls$!: Observable<Call[]>;
+  inProgressCalls$!: Observable<Call[]>;
 
   constructor(private callService: CallService) {}
 

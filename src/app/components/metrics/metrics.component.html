@@ -130,7 +130,7 @@
         <div class="indicator-item">
           <span class="indicator-label">Abandonment Rate</span>
           <span class="indicator-value">
-            {{ metrics.totalCalls > 0 ? (metrics.callsAbandoned / metrics.totalCalls * 100) | number:'1.1-0' : 0 }}%
+            {{ (metrics.totalCalls > 0 ? (metrics.callsAbandoned / metrics.totalCalls * 100) : 0) | number:'1.1-0' }}%
           </span>
         </div>
       </div>

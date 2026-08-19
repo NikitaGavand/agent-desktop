@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { CallService } from '../../../services/call.service';
+import { CallService } from '../../services/call.service';
 import { Observable } from 'rxjs';
-import { CallMetrics } from '../../../models/call.model';
+import { CallMetrics } from '../../models/call.model';
 
 @Component({
   selector: 'app-metrics',
@@ -9,7 +9,7 @@ import { CallMetrics } from '../../../models/call.model';
   styleUrls: ['./metrics.component.scss']
 })
 export class MetricsComponent implements OnInit {
-  metrics$: Observable<CallMetrics>;
+  metrics$!: Observable<CallMetrics>;
 
   constructor(private callService: CallService) {}
 

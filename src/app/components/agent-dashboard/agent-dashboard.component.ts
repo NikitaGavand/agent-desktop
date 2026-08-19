@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { CallService } from '../../../services/call.service';
+import { CallService } from '../../services/call.service';
 import { Observable } from 'rxjs';
-import { Call, Agent, CallMetrics } from '../../../models/call.model';
+import { Call, Agent, CallMetrics } from '../../models/call.model';
 
 @Component({
   selector: 'app-agent-dashboard',
@@ -9,10 +9,10 @@ import { Call, Agent, CallMetrics } from '../../../models/call.model';
   styleUrls: ['./agent-dashboard.component.scss']
 })
 export class AgentDashboardComponent implements OnInit {
-  waitingCalls$: Observable<Call[]>;
-  inProgressCalls$: Observable<Call[]>;
-  agents$: Observable<Agent[]>;
-  metrics$: Observable<CallMetrics>;
+  waitingCalls$!: Observable<Call[]>;
+  inProgressCalls$!: Observable<Call[]>;
+  agents$!: Observable<Agent[]>;
+  metrics$!: Observable<CallMetrics>;
 
   constructor(private callService: CallService) {}
 
@@ -24,7 +24,7 @@ export class AgentDashboardComponent implements OnInit {
   }
 
   acceptCall(callId: string, agentId: string): void {
-    this.callService.acceptCall(callId, agentId).subscribe(success => {
+    this.callService.acceptCall(callId, agentId).subscribe((success: boolean) => {
       if (success) {
         console.log('Call accepted successfully');
       } else {
@@ -35,7 +35,7 @@ export class AgentDashboardComponent implements OnInit {
 
   endCall(callId: string): void {
     const notes = prompt('Add call notes (optional):');
-    this.callService.endCall(callId, notes || '').subscribe(success => {
+    this.callService.endCall(callId, notes || '').subscribe((success: boolean) => {
       if (success) {
         console.log('Call ended successfully');
       } else {
@@ -74,5 +74,13 @@ export class AgentDashboardComponent implements OnInit {
     const now = new Date();
     const waitSeconds = Math.floor((now.getTime() - queueTime.getTime()) / 1000);
     return this.formatDuration(waitSeconds);
+  }
+
+  floor(value: number): number {
+    return Math.floor(value);
+  }
+
+  getCurrentTimestamp(): number {
+    return Date.now();
   }
 }
